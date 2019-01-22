@@ -34,6 +34,7 @@
 
     <dependencies>
         <!--spring 相关依赖 、jar包的导入-->
+
         <!--spring事务管理-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -46,7 +47,7 @@
             <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
+        <!--spring的测试-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -55,6 +56,7 @@
         </dependency>
 
         <!--spring-security-->
+        <!--security的核心jar包-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
@@ -66,6 +68,7 @@
             <artifactId>spring-security-web</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
+
         <!--spring mvc相关依赖、jar包-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -85,6 +88,7 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!--spring面向切面-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
