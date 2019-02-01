@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
         <!--不拦截的页面-->
-        <sec:http pattern="/login.jsp"></sec:http>
+        <sec:http pattern="/login.jsp" security="none"></sec:http>
 
     <!--
     Spring Security 采用就近原则  有多个约束时，从上值下只要找到第一条满足就返回，因此应该将
@@ -12,21 +12,39 @@
     权限控制机制，包括form ，anonymous，rememberMe等-->
 
     <!--access-denied-page="/denied.jsp 没有权限的用户所展示的页面 也可以使用security提供的页面 但是不便于我们对页面的美化和管理-->
-        <sec:http auto-config="true" access-denied-page="/denied.jsp">
+        <!--<sec:http auto-config="true" access-denied-page="/denied.jsp">-->
 
             <!--login-page="/login.jsp" 指定登录页面
             default-target-url="/success.jsp" 登陆成功的页面
             authentication-failure-url="/login.jsp" 登录失败的页面-->
 
-            <sec:form-login login-page="/login.jsp" default-target-url="/success.jsp" authentication-failure-url="/login.jsp"/>
+            <!--<sec:form-login login-page="/login.jsp" default-target-url="/success.jsp" authentication-failure-url="/login.jsp"/>-->
 
             <!--保护的路径 拦截/admin** 的url-->
-            <sec:intercept-url pattern="/admin**" access="ROLE_user,ROLE_admin"/>
+            <!--<sec:intercept-url pattern="/admin**" access="ROLE_user,ROLE_admin"/>-->
             <!-- 点击注销  跳转页面
                 与<a href="<c:url value = "/logout"/>"</a>配合使用
             -->
-            <sec:logout logout-url="/logout.jsp" logout-success-url="/login.jsp" invalidate-session="true"/>
-        </sec:http>
+
+       <!--     <sec:logout logout-url="/logout.jsp" logout-success-url="/login.jsp" invalidate-session="true"/>
+        </sec:http>-->
+
+    <sec:http auto-config="false">
+
+        <!--对/admin**的url记性拦截，只有拥有ROLE_user权限的用户才能进入-->
+        <sec:intercept-url pattern="/admin**" access="ROLE_user"/>
+
+        <!--
+
+        login-page="/login.jsp" 拦截以后重定向到自定义的登陆界面
+        authentication-failure-url="/login.jsp"  登陆的用户没有ROLE_user权限 所跳转的页面
+        default-target-url="/admin"  登陆的用户有ROLE_user权限 跳转的页面
+
+        点击注销  跳转页面
+        与<a href="<c:url value = "/logout"/>"</a>配合使用
+            -->
+        <sec:form-login login-page="/login.jsp" authentication-failure-url="/login.jsp" default-target-url="/admin"/>
+    </sec:http>
 
     <!--使用内存权限管理的配置信息  在Tomcat启动时，会加载这个文件并一直保存在内存中，直到应用程序重启，也叫内存权限管理-->
     <sec:authentication-manager>
